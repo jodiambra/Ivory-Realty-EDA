@@ -1,0 +1,10 @@
+[theme]
+primaryColor="#157f20"
+backgroundColor="#000000"
+secondaryBackgroundColor="#232323"
+textColor="#ffffff"
+font="serif"
+
+
+[runner]
+magicEnabled = False

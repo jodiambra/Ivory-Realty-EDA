@@ -1,0 +1,109 @@
+""""""
+###    
+# # First look at data table
+
+
+    st.subheader('Exploratory Data Analysis')
+    st.subheader('US Vehicles Data')
+
+    vehicles = pd.read_csv(
+        r'vehicles_us.csv')
+
+
+    st.title('')
+
+    looking = st.checkbox('I am looking to buy a car')
+    if looking:
+        st.write('Great! Let\'s do some shopping!')
+
+        budget = st.slider(
+            'What is Your Budget',
+            0.0, 400000.0, (200.0, 425000.0)
+
+
+        )
+        st.write('Budget:', budget)
+        st.subheader('')
+
+        st.title('')
+
+        st.subheader('')
+        #-------------------------------#
+
+
+    st.header('Let\'s compare price distribution between manufacturers')
+    manufac_list = sorted(vehicles['manufacturer'].unique())
+    manufacturer_1 = st.selectbox(
+        'Select manufacturer 1', manufac_list, index=manufac_list.index('bmw'))
+
+    manufacturer_2 = st.selectbox('Select manufacturer 2',
+                                manufac_list, index=manufac_list.index('toyota'))
+    mask_filter = (vehicles['manufacturer'] == manufacturer_1) | (
+        vehicles['manufacturer'] == manufacturer_2)
+    vehicles_filtered = vehicles[mask_filter]
+
+    normalize = st.checkbox('Normalize histogram', value=True)
+    if normalize:
+        histnorm = 'percent'
+    else:
+        histnorm = None
+    st.write(px.histogram(vehicles_filtered,
+                        x='price',
+                        nbins=30,
+                        color='manufacturer',
+                        histnorm=histnorm,
+                        barmode='overlay'))
+
+    with st.expander('Details'):
+        st.write(''' This chart shows the price distributions among manufacturers. Here, 
+            you are able to compare two manufacturers at a time. ''')
+
+
+    #-------------------------------#
+
+
+    #--------------------------------------#
+    new_cars = st.checkbox('I Like Newer Model Cars')
+    old_cars = st.checkbox('Show Me the Classic Cars')
+
+
+    # 20 newest vehicles
+    vehicle_year_new_fig = px.bar(
+        vehicle_year_new, x='model_year', y='count', title='Newest Vehicles')
+    if new_cars:
+        st.header('The 20 Newest Vehicles')
+        st.write(vehicle_year_new_fig)
+
+        with st.expander('Details'):
+            st.write(''' This chart shows the 20 newest vehicles for sale based on model year. The greatest 
+                number of vehicles ranges from model years 2010 to 2016. ''')
+
+    st.title('')
+
+    # count of the oldest vehicles
+    vehicle_year_old = vehicles[['model_year']
+                                ].value_counts().nsmallest(20).reset_index()
+    vehicle_year_old = pd.DataFrame(vehicle_year_old)
+    vehicle_year_old.columns = ['model_year', 'count']
+    vehicle_year_old['model_year'] = vehicle_year_old['model_year'].astype('int')
+
+    # oldest vehicle by year
+    vehicle_year_old_fig = px.bar(
+        vehicle_year_old, x='model_year', y='count', title='Oldest Vehicles')
+    if old_cars:
+        st.header('The 20 Oldest Vehicles')
+        st.write('Check Out These Classic Cars')
+        st.write(vehicle_year_old_fig)
+
+        with st.expander('Details'):
+            st.write(''' This chart shows the 20 oldest vehicles for sale based on model year. There are 2 vehicles made in 1908, while the majority range from the 1960s 
+            to the 1980's. ''')
+
+
+    #----------------------------------------#
+
+
+    helpful = st.button('Was This Helpful?')
+    if helpful:
+        st.write('Glad to Help!!!') """
+### 
