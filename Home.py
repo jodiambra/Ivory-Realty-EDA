@@ -31,9 +31,11 @@ image_1 = Image.open('images/LinkedIn Background Photo.png')
 
 st.image(image_1, width=1300)
 
-st.markdown('Welcome to Ivory Realty Group\'s exploratory data analysis on the current US housing market.')
-st.markdown('Data is gathered from Zillow.')
-st.markdown('This web application while highlight metrics of home value, forecasted home value, inventory, price cuts, and rental index.')
+st.markdown('For investors, this data provides valuable insights into the current and projected state of the US housing market. By utilizing this platform, ')
+st.markdown('investors can make informed decisions about where to allocate their resources and capitalize on potential investment opportunities. Whether ')
+st.markdown('you\'re a seasoned real estate investor or new to the market, the Ivory Realty Group\'s exploratory data analysis can provide you with the')
+st.markdown('information you need to make smart investments in the US housing market. So why wait? Start exploring today and take your first step towards')
+st.markdown(' building a profitable real estate portfolio!')
 
-    #-------------------------------#
+#-------------------------------#
 
