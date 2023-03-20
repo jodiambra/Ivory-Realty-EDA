@@ -7,3 +7,13 @@ textColor="#3ec50c"
 
 [runner]
 magicEnabled = False
+
+[server]
+headless = true
+port = 10000
+
+[browser]
+serverAddress = "0.0.0.0"
+serverPort = 10000
+
+
