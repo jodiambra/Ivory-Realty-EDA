@@ -233,6 +233,7 @@ st.write(fig)
 st.write(px.box(y=[md_2018, md_2019, md_2020, md_2021, md_2022], x=md_2018.index, title='Mean Maryland Home Value from 2018-2022', labels={'x':'City'}, 
                 height=900, width=1400, color_discrete_sequence=['orange']))
 
+st.title('')
 #-----------------------------------------------------------------------------------------#
 
 

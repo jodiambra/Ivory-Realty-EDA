@@ -4,7 +4,6 @@ import pandas as pd
 import plotly_express as px
 from PIL import Image
 from streamlit.commands.page_config import Layout
-from streamlit_folium import st_folium
 from streamlit.components.v1 import components
 import numpy as np
 
