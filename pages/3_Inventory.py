@@ -18,7 +18,7 @@ st.title('Home Invetory')
 #------------------------------------------# 
 # Dataset
 
-inv = pd.read_csv('datasets\inventory.csv')
+inv = pd.read_csv('datasets/inventory.csv')
 inv.drop(columns=['RegionID', 'SizeRank', 'RegionType'], inplace=True)
 inv.rename(columns={'RegionName':'region_name', 'StateName':'state_name'}, inplace=True)
 inv.state_name = inv.state_name.fillna('USA')

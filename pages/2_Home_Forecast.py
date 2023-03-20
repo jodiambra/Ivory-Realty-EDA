@@ -19,7 +19,7 @@ st.set_page_config(page_title='Home Value Forecasting',
 
 # Load dataset
 
-hvf = pd.read_csv('datasets\home_value_forcast.csv')
+hvf = pd.read_csv('datasets/home_value_forcast.csv')
 hvf.drop(columns=['RegionID', 'RegionType'], inplace=True)
 hvf.columns = ['size_rank', 'region', 'state',
                'base_date', 'feb', 'apr', 'jan_24']

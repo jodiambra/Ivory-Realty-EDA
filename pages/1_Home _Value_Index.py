@@ -16,7 +16,7 @@ st.set_page_config(page_title='Home Value Index',
                    menu_items=None)
 
 
-hvi = pd.read_csv('datasets\home_value_index.csv')
+hvi = pd.read_csv('datasets/home_value_index.csv')
 hvi.drop(columns=['RegionID', 'SizeRank', 'RegionType'], inplace=True)
 hvi.rename(columns={'RegionName': 'region_name', 'StateName':'state_name'}, inplace=True)
 
