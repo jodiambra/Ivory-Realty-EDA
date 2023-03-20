@@ -1,9 +1,0 @@
-[theme]
-base="light"
-primaryColor="#05e86e"
-textColor="#0da833"
-
-
-
-[runner]
-magicEnabled = False

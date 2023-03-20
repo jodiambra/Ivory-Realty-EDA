@@ -5,6 +5,7 @@ import plotly_express as px
 from PIL import Image
 from streamlit.commands.page_config import Layout
 import numpy as np
+from streamlit.components.v1 import components
 
 icon = Image.open('images/Favicon Transparent.ico')
 
@@ -19,102 +20,13 @@ hvi = pd.read_csv('datasets\home_value_index.csv')
 hvi.drop(columns=['RegionID', 'SizeRank', 'RegionType'], inplace=True)
 hvi.rename(columns={'RegionName': 'region_name', 'StateName':'state_name'}, inplace=True)
 
+
+#-----------------------------------------------------------------------------------------#
 st.title('Zillow Home Value Index')
 
-ga = hvi.query("state_name=='GA'")
-ga.set_index('region_name', inplace=True)
+#-----------------------------------------------------------------------------------------#
 
-st.subheader('Home Values in Georgia')
-
-st.write(px.scatter(ga.mean(axis=1), title='City Mean Home Value form 2000-2023', size=ga.mean(axis=1), height=900, width=1400, color_discrete_map={'value':'orange'}))
-st.write(px.box(ga.iloc[0,:], title='Distribution of Home Values Atlanta', height=900, width=1400, color_discrete_map={'value':'green'}))
-
-ga.drop(columns='state_name', inplace=True)
-
-ga_2018 = ga.loc[:,'1/31/2018':'12/31/2018'].mean(axis=1)
-ga_2019 = ga.loc[:,'1/31/2019':'12/31/2019'].mean(axis=1)
-ga_2020 = ga.loc[:,'1/31/2020':'12/31/2020'].mean(axis=1)
-ga_2021 = ga.loc[:,'1/31/2021':'12/31/2021'].mean(axis=1)
-ga_2022 = ga.loc[:,'1/31/2022':'12/31/2022'].mean(axis=1)
-
-fig = px.scatter(y=[ga_2018, ga_2019, ga_2020, ga_2021, ga_2022], x=ga_2018.index, title='Mean Georgia Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400
-)
-series_names = ["2018", "2019", "2020", "2021", "2022"]
-
-for idx, name in enumerate(series_names):
-    fig.data[idx].name = name
-    fig.data[idx].hovertemplate = name
-
-st.write(fig)
-
-st.write(px.box(y=[ga_2018, ga_2019, ga_2020, ga_2021, ga_2022], x=ga_2018.index, title='Mean Georgia Home Value from 2018-2022', height=900, width=1400))
-
-#-------------------------------#
-st.title('')
-st.title('')
-st.subheader('Home Values in Pennsylvania')
-
-pa = hvi.query("state_name=='PA'")
-pa.set_index('region_name', inplace=True)
-
-st.write(px.scatter(pa.mean(axis=1), title='City Mean Home Value form 2000-2023', size=pa.mean(axis=1), height=900, width=1400))
-
-st.write(px.box(pa.iloc[0,:], title='Distribution of Home Values Pennsylvania', height=900, width=1400))
-
-pa_2018 = pa.loc[:,'1/31/2018':'12/31/2018'].mean(axis=1)
-pa_2019 = pa.loc[:,'1/31/2019':'12/31/2019'].mean(axis=1)
-pa_2020 = pa.loc[:,'1/31/2020':'12/31/2020'].mean(axis=1)
-pa_2021 = pa.loc[:,'1/31/2021':'12/31/2021'].mean(axis=1)
-pa_2022 = pa.loc[:,'1/31/2022':'12/31/2022'].mean(axis=1)
-
-fig = px.scatter(y=[pa_2018, pa_2019, pa_2020, pa_2021, pa_2022], x=pa_2018.index, title='Mean Pennsylvania Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400
-)
-series_names = ["2018", "2019", "2020", "2021", "2022"]
-
-for idx, name in enumerate(series_names):
-    fig.data[idx].name = name
-    fig.data[idx].hovertemplate = name
-
-st.write(fig)
-
-st.write(px.box(y=[pa_2018, pa_2019, pa_2020, pa_2021, pa_2022], x=pa_2018.index, title='Mean Pennsylvania Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400))
-
-#------------------------------#
-
-st.title('')
-st.title('')
-st.subheader('Home Values in Maryland')
-
-md = hvi.query("state_name=='MD'")
-md.set_index('region_name', inplace=True)
-md.drop(columns='state_name', inplace=True)
-
-st.write(px.scatter(md.mean(axis=1), title='City Mean Home Value form 2000-2023', size=md.mean(axis=1), height=900, width=1400))
-st.write(px.box(md.iloc[0,:], title='Distribution of Home Values Maryland', height=900, width=1400))
-
-md_2018 = md.loc[:,'1/31/2018':'12/31/2018'].mean(axis=1)
-md_2019 = md.loc[:,'1/31/2019':'12/31/2019'].mean(axis=1)
-md_2020 = md.loc[:,'1/31/2020':'12/31/2020'].mean(axis=1)
-md_2021 = md.loc[:,'1/31/2021':'12/31/2021'].mean(axis=1)
-md_2022 = md.loc[:,'1/31/2022':'12/31/2022'].mean(axis=1)
-
-fig = px.scatter(y=[md_2018, md_2019, md_2020, md_2021, md_2022], x=md_2018.index, title='Mean Maryland Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400
-)
-series_names = ["2018", "2019", "2020", "2021", "2022"]
-
-for idx, name in enumerate(series_names):
-    fig.data[idx].name = name
-    fig.data[idx].hovertemplate = name
-
-st.write(fig)
-
-st.write(px.box(y=[md_2018, md_2019, md_2020, md_2021, md_2022], x=md_2018.index, title='Mean Maryland Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400))
-
-#----------------------------#
-
-st.title('')
-st.title('')
-st.subheader('Average Home Values Across the US')
+# Across the US 
 
 yr_2000 = ['1/31/2000', '2/29/2000', '3/31/2000', '4/30/2000', '5/31/2000', '6/30/2000', '7/31/2000', '8/31/2000', '9/30/2000', '10/31/2000', '11/30/2000', '12/31/2022']
 
@@ -161,26 +73,11 @@ st_avg_2020 = hvi_state_mean.iloc[:, 240:252]
 st_avg_2021 = hvi_state_mean.iloc[:, 252:264]
 st_avg_2022 = hvi_state_mean.iloc[:, 264:276]
 
-st.write(px.scatter(st_avg_2021, title='Average Home Values in 2021', labels={'state_name':'States'}, template='plotly_white', height=900, width=1400))
-
-st.write(px.scatter(st_avg_2022, title='Average Home Values in 2022', labels={'state_name':'States'}, template='plotly_white', height=900, width=1400))
-
-
-st.write(px.scatter(st_avg_2021.mean(axis=1), title='Average Home Values in 2021', labels={'state_name':'States'}, template='plotly_white', height=900, width=1400))
-       
-st.write(px.scatter(st_avg_2022.mean(axis=1), title='Average Home Values in 2022', labels={'state_name':'States'}, template='plotly_white', height=900, width=1400))
-
-
-#---------------------------------------------#
-
-st.title('')
-st.title('')
-
-st.subheader('Mean Home Values from 2000 to 2022')
-
+# state names
 state_names = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 
 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 
-'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'USA', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+
 
 # means of each state for the year
 mean_2000 = st_avg_2000.mean(axis=1)
@@ -207,32 +104,11 @@ mean_2020 = st_avg_2020.mean(axis=1)
 mean_2021 = st_avg_2021.mean(axis=1)
 mean_2022 = st_avg_2022.mean(axis=1)
 
-means = []
-for year in range(2000, 2023):
-    mean = np.mean(locals()[f"st_avg_{year}"], axis=1)
-    means.append(mean)
-
-fig = px.scatter(x=state_names, y=means, labels={'x': 'State', 'y': 'Mean value'}, title='Mean Home Values from 2000-2022')
-
-series = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"]
-
-for idx, name in enumerate(series):
-    fig.data[idx].name = name
-    fig.data[idx].hovertemplate = name
-
-st.write(fig)
 
 
-means = []
-for year in range(2000, 2023):
-    mean = np.mean(locals()[f"st_avg_{year}"], axis=1)
-    means.append(mean)
-
-fig = px.box(x=state_names, y=means, labels={'x': 'State', 'y': 'Mean value'}, title='Mean Home Value Distributions from 2000-2022')
-st.write(fig)
-
-
-fig = px.scatter(y=[mean_2018, mean_2019, mean_2020, mean_2021, mean_2022 ], x= state_names, labels={'x': 'States', 'value':'Home Values'}, title='Mean Home Values from 2018-2022')
+#-------------# 
+st.subheader('Average Home Values Across the US')
+fig = px.scatter(y=[mean_2018, mean_2019, mean_2020, mean_2021, mean_2022 ], x= state_names, labels={'x': 'States', 'value':'Home Values'}, title='Mean Home Values from 2018-2022', height=900, width=1400)
 series_names = ["2018", "2019", "2020", "2021", "2022"]
 
 for idx, name in enumerate(series_names):
@@ -241,4 +117,125 @@ for idx, name in enumerate(series_names):
 
 st.write(fig)
 
-st.write(px.box(y=[mean_2018, mean_2019, mean_2020, mean_2021, mean_2022 ], x= state_names, labels={'x': 'States', 'value':'Home Values'}))
+#-------------# 
+
+st.write(px.box(y=[mean_2018, mean_2019, mean_2020, mean_2021, mean_2022 ], x= state_names, labels={'x': 'States', 'value':'Home Values'}, 
+                height=900, width=1400,  title='Mean Home Value Distribution from 2018-2022', color_discrete_sequence=['green']))
+
+st.title('')
+#-------------# 
+       
+st.write(px.scatter(st_avg_2022.mean(axis=1), title='Average Home Values in 2022', labels={'state_name':'States'}, template='plotly_white', height=900, width=1400,
+                     size=st_avg_2022.mean(axis=1), color=st_avg_2022.index))
+
+st.title('')
+#---------------------------------------------#
+
+
+
+#---------------------------------------------#
+
+# Georgia
+st.subheader('Georgia')
+ga = hvi.query("state_name=='GA'")
+ga.set_index('region_name', inplace=True)
+
+ga.drop(columns='state_name', inplace=True)
+
+ga_2018 = ga.loc[:,'1/31/2018':'12/31/2018'].mean(axis=1)
+ga_2019 = ga.loc[:,'1/31/2019':'12/31/2019'].mean(axis=1)
+ga_2020 = ga.loc[:,'1/31/2020':'12/31/2020'].mean(axis=1)
+ga_2021 = ga.loc[:,'1/31/2021':'12/31/2021'].mean(axis=1)
+ga_2022 = ga.loc[:,'1/31/2022':'12/31/2022'].mean(axis=1)
+
+#-------------# 
+
+fig = px.scatter(y=[ga_2018, ga_2019, ga_2020, ga_2021, ga_2022], x=ga_2018.index, title='Mean Georgia Home Value from 2018-2022', labels={'x':'City'}, 
+                 height=900, width=1400)
+series_names = ["2018", "2019", "2020", "2021", "2022"]
+
+for idx, name in enumerate(series_names):
+    fig.data[idx].name = name
+    fig.data[idx].hovertemplate = name
+
+st.write(fig)
+
+#-------------# 
+
+st.write(px.box(y=[ga_2018, ga_2019, ga_2020, ga_2021, ga_2022], x=ga_2018.index, title='Mean Georgia Home Value from 2018-2022', height=900, width=1400, 
+                color_discrete_sequence=['orange']))
+
+#-----------------------------------------------------------------------------------------#
+
+# Pennsylvania
+st.title('')
+st.title('')
+st.subheader('Pennsylvania')
+
+pa = hvi.query("state_name=='PA'")
+pa.set_index('region_name', inplace=True)
+
+pa_2018 = pa.loc[:,'1/31/2018':'12/31/2018'].mean(axis=1)
+pa_2019 = pa.loc[:,'1/31/2019':'12/31/2019'].mean(axis=1)
+pa_2020 = pa.loc[:,'1/31/2020':'12/31/2020'].mean(axis=1)
+pa_2021 = pa.loc[:,'1/31/2021':'12/31/2021'].mean(axis=1)
+pa_2022 = pa.loc[:,'1/31/2022':'12/31/2022'].mean(axis=1)
+
+#-------------# 
+
+fig = px.scatter(y=[pa_2018, pa_2019, pa_2020, pa_2021, pa_2022], x=pa_2018.index, title='Mean Pennsylvania Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400
+)
+series_names = ["2018", "2019", "2020", "2021", "2022"]
+
+for idx, name in enumerate(series_names):
+    fig.data[idx].name = name
+    fig.data[idx].hovertemplate = name
+
+st.write(fig)
+
+#-------------# 
+
+st.write(px.box(y=[pa_2018, pa_2019, pa_2020, pa_2021, pa_2022], x=pa_2018.index, title='Mean Pennsylvania Home Value from 2018-2022', labels={'x':'City'}, 
+                height=900, width=1400, color_discrete_sequence=['orange']))
+
+#-----------------------------------------------------------------------------------------#
+
+# Maryland
+
+st.title('')
+st.title('')
+st.subheader('Maryland')
+
+md = hvi.query("state_name=='MD'")
+md.set_index('region_name', inplace=True)
+md.drop(columns='state_name', inplace=True)
+
+md_2018 = md.loc[:,'1/31/2018':'12/31/2018'].mean(axis=1)
+md_2019 = md.loc[:,'1/31/2019':'12/31/2019'].mean(axis=1)
+md_2020 = md.loc[:,'1/31/2020':'12/31/2020'].mean(axis=1)
+md_2021 = md.loc[:,'1/31/2021':'12/31/2021'].mean(axis=1)
+md_2022 = md.loc[:,'1/31/2022':'12/31/2022'].mean(axis=1)
+
+#-------------# 
+
+fig = px.scatter(y=[md_2018, md_2019, md_2020, md_2021, md_2022], x=md_2018.index, title='Mean Maryland Home Value from 2018-2022', labels={'x':'City'}, height=900, width=1400
+)
+series_names = ["2018", "2019", "2020", "2021", "2022"]
+
+for idx, name in enumerate(series_names):
+    fig.data[idx].name = name
+    fig.data[idx].hovertemplate = name
+
+st.write(fig)
+
+#-------------# 
+
+st.write(px.box(y=[md_2018, md_2019, md_2020, md_2021, md_2022], x=md_2018.index, title='Mean Maryland Home Value from 2018-2022', labels={'x':'City'}, 
+                height=900, width=1400, color_discrete_sequence=['orange']))
+
+#-----------------------------------------------------------------------------------------#
+
+
+html_string = "<div class='tableauPlaceholder' id='viz1679333742348' style='position: relative'><noscript><a href='#'><img alt='IRG Home Value Index ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IR&#47;IRGHomeValueIndex&#47;Story1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='IRGHomeValueIndex&#47;Story1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IR&#47;IRGHomeValueIndex&#47;Story1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1679333742348');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>"
+
+st.components.v1.html(html_string, width=1400, height=1300, scrolling=True)
